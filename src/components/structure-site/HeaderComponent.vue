@@ -6,27 +6,27 @@ export default {
 
 <template>
   <nav>
-    <ul class="liste_nav">
-      <li><router-link to="/">Accueil</router-link></li>
-      <li><router-link to="/random">Random card</router-link></li>
-      <li><router-link :to="{name: 'art-game'}">Art Game</router-link></li>
-    </ul>
+      <router-link to="/">Accueil</router-link>
+      <router-link to="/random">Random card</router-link>
+      <router-link :to="{name: 'art-game'}">Art Game</router-link>
   </nav>
 </template>
 
 <style>
   nav{
-    display: block;
+    display: flex;
     justify-content: center;
     position: sticky;
-    min-width: 50vw;    
+    min-width: 50vw;
+    min-height: 4.5vh;
   }
-  .liste_nav{
-    display: flex;
-    flex-direction: row;
-  }
-  li{
+  a{
     margin-left: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+    align-self: center;
+    text-decoration: none;
+    color:aliceblue
   }
   
   
@@ -34,20 +34,15 @@ export default {
     nav{
       min-width: 60vw;
     }
-    .liste_nav{
-      flex-direction: row;
-    }
   }
   @media (max-width : 768px){
     nav{
       min-width: 50vw;
     }
-    .liste_nav{
-      flex-direction: row;
-    }
   }
   @media (max-width : 425px){
-    .liste_nav{
+    nav{
+      display: flex;
       flex-direction: column;
     }
   }

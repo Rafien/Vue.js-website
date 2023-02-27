@@ -33,6 +33,7 @@ header{
     min-width: 100vw;
     padding-left: 5%;
     border-bottom: 1px solid black;
+    background-color: #754374;
   }
 .page{
   padding: 2% 5%;

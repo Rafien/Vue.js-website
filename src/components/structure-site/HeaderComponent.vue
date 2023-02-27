@@ -9,8 +9,6 @@ export default {
     <ul class="liste_nav">
       <li><router-link to="/">Accueil</router-link></li>
       <li><router-link to="/random">Random card</router-link></li>
-      <li><router-link :to="{name: 'card_page', params:{nom: 'Queen Kayla bin-Kroog'}}">Queen Kayla</router-link></li>
-      <li><router-link :to="{name: 'card_page', params:{nom: 'Omniscience'}}">Omniscience</router-link></li>
       <li><router-link :to="{name: 'art-game'}">Art Game</router-link></li>
     </ul>
   </nav>
@@ -21,7 +19,7 @@ export default {
     display: block;
     justify-content: center;
     position: sticky;
-    min-width: 50vw;
+    min-width: 50vw;    
   }
   .liste_nav{
     display: flex;

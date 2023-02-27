@@ -31,7 +31,8 @@ header{
     display: flex;
     flex-direction: row;
     min-width: 100vw;
-    justify-content: center;
+    padding-left: 5%;
+    border-bottom: 1px solid black;
   }
 .page{
   padding: 2% 5%;

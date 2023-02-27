@@ -7,14 +7,6 @@ export default {
   data(){
     return {
       name : "",
-      mana_cost : 0,
-      set : "",
-      coll_num : 0,
-      type : "",
-      text : "",
-      power : 0,
-      toughness : 0,
-      img: "",
     }
   },
   mounted() {

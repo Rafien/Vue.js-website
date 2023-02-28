@@ -93,5 +93,6 @@ export default {
 }
 .link-to-art{
   text-decoration: none;
+  color: #7f5af0;
 }
 </style>

@@ -30,10 +30,10 @@ export default {
 header{
     display: flex;
     flex-direction: row;
-    min-width: 100vw;
-    padding-left: 5%;
+    min-width: 85vw;
+    padding-left: 10%;
     border-bottom: 1px solid black;
-    background-color: #754374;
+    background-color: #7f5af0;
   }
 .page{
   padding: 2% 5%;

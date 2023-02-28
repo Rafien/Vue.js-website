@@ -6,7 +6,7 @@ export default {
 
 <template>
   <footer>
-    Je suis le footer
+    footer
   </footer>
 </template>
 

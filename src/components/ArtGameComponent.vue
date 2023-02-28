@@ -77,7 +77,7 @@ export default {
 
   <button @click="guess()"><slot>guess</slot></button>
   <div>Score : {{  this.score }}</div>
-  <div v-if="oldName != ''">{{ this.resultat }} it was <!--Add routerlink (bug?)-->{{ this.oldName }} and you guessed {{ this.guessedNameDisplay }}</div>
+  <div v-if="oldName != ''">{{ this.resultat }} it was <!--Add routerlink (bug?)--><router-link :to="{name: 'card_page', params:{nom: this.oldName}}" target="_blank" class="link-to-art">{{ this.oldName }}</router-link> and you guessed {{ this.guessedNameDisplay }}</div>
   <img :src="this.oldImg" class="old_img">
 </template>
 
@@ -90,5 +90,8 @@ export default {
 .main_img{
     height: 400px;
     width: auto;
+}
+.link-to-art{
+  text-decoration: none;
 }
 </style>

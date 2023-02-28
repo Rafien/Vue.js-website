@@ -51,13 +51,13 @@
     <div class="card_grid">
       <span><img :src="this.img"/></span>
       <span class="card_infos">
-        <div v-if=" this.mana_cost != ''">Mana Cost : {{ this.mana_cost }}</div>
-        <div>Nom : <span id="nom">{{ nom }}</span> </div>
-        <div>set : {{ this.set }}</div>
-        <div>Type : {{ this.type }}</div>
-        <div v-if="this.text != ''">Text : {{ this.text }}</div>
-        <div v-if=" this.power != undefined">Power : {{ this.power }}</div>
-        <div v-if=" this.toughness != undefined">Toughness : {{ this.toughness }}</div>
+        <div v-if=" this.mana_cost != ''" class="card_info">Mana Cost : {{ this.mana_cost }}</div>
+        <div class="card_info">Nom : <span id="nom">{{ nom }}</span> </div>
+        <div class="card_info">set : {{ this.set }}</div>
+        <div class="card_info">Type : {{ this.type }}</div>
+        <div v-if="this.text != ''" class="card_info">Text : {{ this.text }}</div>
+        <div v-if=" this.power != undefined" class="card_info">Power : {{ this.power }}</div>
+        <div v-if=" this.toughness != undefined" class="card_info">Toughness : {{ this.toughness }}</div>
       </span>
     </div>
     
@@ -77,6 +77,10 @@
     max-width: 25vw;
     grid-column: 2;
     padding-top: 10%;
+  }
+
+  .card_info{
+    margin-top: 2%;
   }
 
   .card_grid{

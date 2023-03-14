@@ -1,6 +1,7 @@
 
 
 <script>
+import { transform } from "@vue/compiler-core";
 import axios from "axios";
 
 export default {
@@ -9,20 +10,27 @@ export default {
     return {
       search: "",
       name: "",
+      layout: "",
     }
   },
   watch:{
     search(newSearch){
       axios.get('https://api.scryfall.com/cards/named',{params: {fuzzy:newSearch}} ).then(
             (result) => {
-                this.name = result.data.name
+                this.layout = result.data.layout
+                if (this.layout == 'split' || this.layout == 'transform' || this.layout == 'flip' || this.layout == 'modal_dfc' || this.layout == 'adventure'){
+                  this.name = result.data.card_faces[0].name
+                } else {
+                  this.name = result.data.name
+                }
             }
         )
     }
   },
   methods:{
     changeTo(){
-      this.$router.push({path: `/card/${this.name}`}),
+      this.$router.push({path: `/card/${this.name}`})
+        
       this.search = ""
   }
   }
@@ -45,7 +53,7 @@ export default {
   input{
     min-height: 4.5vh;
     padding-top: 1.25%;
-    background-color: #7f5af0;
+    background-color: #402e75;
     border: none;
     border-left: solid 1px rgba(48, 52, 54, 0.4);
   }
@@ -59,7 +67,7 @@ export default {
     min-height: 4.5vh;
     padding-top: 1.25%;
     color: #fffffe;
-    background-color: #7f5af0;
+    background-color: #402e75;
     border:none;
     border-left: solid 1px rgba(26, 26, 27, 0.4);
     border-right: solid 1px rgba(26, 26, 27, 0.4);

@@ -1,19 +1,30 @@
 
   <script>
   import axios from "axios";
+import { routerKey } from "vue-router";
   
   export default {
     name: "CardComponent",
     data(){
       return {
         name : "",
+        name1: "",
         mana_cost : 0,
+        mana_cost: 0,
         set : "",
         type : "",
+        type1: "",
         text : "",
+        text1 : "",
         power : 0,
+        power1 : 0,
         toughness : 0,
+        toughness1 : 0,
         img: "",
+        img1: "",
+        affimg: "",
+        layout: "",
+        which_card : 1,
       }
     },
     props: ['nom'],
@@ -34,30 +45,96 @@
       async getCard(needed){
         axios.get('https://api.scryfall.com/cards/named', {params: {exact : needed}}).then(
             (result) => {
-              this.set = result.data.set,
-              this.mana_cost = result.data.mana_cost
-              this.type = result.data.type_line
-              this.text = result.data.oracle_text
-              this.power = result.data.power
-              this.toughness = result.data.toughness
-              this.img = result.data.image_uris.png
+              this.layout = result.data.layout
+              this.set = result.data.set
+              console.log(result)
+              if (this.layout == 'split' || this.layout == 'flip' || this.layout == 'transform' || this.layout == 'modal_dfc' || this.layout == 'adventure'){
+                //name
+                this.name = result.data.card_faces[0].name
+                this.name1 = result.data.card_faces[1].name
+                //text
+                this.text = result.data.card_faces[0].oracle_text
+                this.text1 = result.data.card_faces[1].oracle_text
+                //cmc
+                this.mana_cost = result.data.card_faces[0].mana_cost
+                this.mana_cost1 = result.data.card_faces[1].mana_cost
+                //types
+                this.type = result.data.card_faces[0].type_line
+                this.type1 = result.data.card_faces[1].type_line
+                //power
+                this.power = result.data.card_faces[0].power
+                this.power1 = result.data.card_faces[1].power
+                //toughness
+                this.toughness = result.data.card_faces[0].toughness
+                this.toughness1 = result.data.card_faces[1].toughness
+                //img
+                if(this.layout == 'split' || this.layout == 'flip' || this.layout == 'adventure'){
+                  this.img = result.data.image_uris.png
+                  this.affimg = this.img
+                } else {
+                  this.img = result.data.card_faces[0].image_uris.png
+                  this.img1 = result.data.card_faces[1].image_uris.png
+                  this.affimg = this.img
+                }
+              } else {
+                this.text = result.data.oracle_text
+                this.mana_cost = result.data.mana_cost
+                this.type = result.data.type_line
+                this.power = result.data.power
+                this.toughness = result.data.toughness
+                this.img = result.data.image_uris.png
+                this.affimg = this.img
+              }
+              
             }
         )
+        },
+        async transform(){
+          if (this.which_card == 1){
+            this.affimg = this.img1
+            this.which_card = 2 
+          } else {
+            this.affimg = this.img
+            this.which_card = 1
+          }
+            
         }
+        //https://scryfall.com/docs/api/card-symbols/all
+        //https://scryfall.com/docs/api/colors
+      /*async analyseManaCost(mana_cost){
+        regex = '\{[\w/]*}'
+      }*/
     }
   }
   </script>
   <template>
     <div class="card_grid">
-      <span><img :src="this.img"/></span>
+      <span class="img">
+        <img :src="this.affimg"/>
+        <div v-if="this.layout == 'transform' || this.layout == 'modal_dfc'" class="transform">
+          <button @click="$event => transform()"> Transform</button>
+      
+        </div>
+      </span>
       <span class="card_infos">
-        <div v-if=" this.mana_cost != ''" class="card_info">Mana Cost : {{ this.mana_cost }}</div>
         <div class="card_info">Nom : <span id="nom">{{ nom }}</span> </div>
+        <div v-if=" this.mana_cost != 0" class="card_info">Mana Cost : {{ this.mana_cost }}</div>
         <div class="card_info">set : {{ this.set }}</div>
         <div class="card_info">Type : {{ this.type }}</div>
         <div v-if="this.text != ''" class="card_info">Text : {{ this.text }}</div>
         <div v-if=" this.power != undefined" class="card_info">Power : {{ this.power }}</div>
         <div v-if=" this.toughness != undefined" class="card_info">Toughness : {{ this.toughness }}</div>
+        <!--layout-->
+        <div v-if="this.layout == 'split' || this.layout == 'flip' || this.layout == 'transform' || this.layout == 'modal_dfc' || this.layout == 'adventure'" class="card_info card_2">
+          <div class="card_info"> Nom alt : <span id="nom">{{ this.name1 }}</span></div>
+          <div v-if=" this.mana_cost1 != 0" class="card_info">Mana Cost alt : {{ this.mana_cost1 }}</div>
+          <div class="card_info">set : {{ this.set }}</div>
+          <div class="card_info">Type : {{ this.type1 }}</div>
+          <div v-if="this.text1 != ''" class="card_info">Text alt : {{ this.text1 }}</div>
+          <div v-if=" this.power1 != undefined" class="card_info">Power : {{ this.power1 }}</div>
+          <div v-if=" this.toughness1 != undefined" class="card_info">Toughness : {{ this.toughness1 }}</div>
+        
+        </div>
       </span>
     </div>
     
@@ -69,6 +146,9 @@
     height: 500px;
     width: auto;
     grid-column: 1;
+  }
+  .img{
+    margin-top: 10%;
   }
 
   .card_infos{
@@ -83,11 +163,19 @@
     margin-top: 2%;
   }
 
+  .card_2 {
+    margin-top: 15%;
+  }
+
   .card_grid{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 2.5%;
     padding: 15px 5%;
+  }
+
+  .transform{
+    margin-left: 28%;
   }
 
   @media (max-width : 768px){

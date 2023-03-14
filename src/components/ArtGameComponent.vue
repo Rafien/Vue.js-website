@@ -9,6 +9,7 @@ export default {
       toGuess:"",
       name : "",
       img: "",
+      set: "",
 
       // recup input + données
       input: "",
@@ -22,6 +23,7 @@ export default {
       //affichage réponse
       oldName:"",
       oldImg:"",
+      oldset: "",
     }
   },
   watch:{
@@ -44,6 +46,7 @@ export default {
           (result) => {
               this.name = result.data.name,
               this.img = result.data.image_uris.art_crop
+              this.set = result.data.set
           }
       )
     },
@@ -63,8 +66,17 @@ export default {
     setVariables(){
         this.oldImg = this.img
         this.oldName = this.name
+        this.oldset = this.getSet(this.set)
         this.guessedNameDisplay = this.guessedName
         this.toGuess = ""
+    },
+    getSet(set){
+      axios.get('https://api.scryfall.com/sets/'+ set).then(
+        (setResult) => {
+          console.log(setResult)
+          this.oldset = setResult.data.name
+        }
+      )
     }
   }
 }
@@ -72,12 +84,12 @@ export default {
 
 <template>
     <div><img :src="this.img" class="main_img"/></div>
-    <div>  For testing purposes : name : {{ this.name }}</div>
+    <div>  For testing purposes : name : {{ this.name }}, set : {{ this.set }}</div>
     <input type="text" v-model="toGuess">
 
   <button @click="guess()"><slot>guess</slot></button>
   <div>Score : {{  this.score }}</div>
-  <div v-if="oldName != ''">{{ this.resultat }} it was <!--Add routerlink (bug?)--><router-link :to="{name: 'card_page', params:{nom: this.oldName}}" target="_blank" class="link-to-art">{{ this.oldName }}</router-link> and you guessed {{ this.guessedNameDisplay }}</div>
+  <div v-if="oldName != ''">{{ this.resultat }} it was <router-link :to="{name: 'card_page', params:{nom: this.oldName}}" target="_blank" class="link-to-art">{{ this.oldName }}</router-link> from {{ this.oldset }} and you guessed {{ this.guessedNameDisplay }}</div>
   <img :src="this.oldImg" class="old_img">
 </template>
 

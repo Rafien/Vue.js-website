@@ -14,10 +14,15 @@ export default {
   },
   methods:{
     async getProduct(){
-      console.log('all')
       axios.get('https://api.scryfall.com/cards/random').then(
           (result) => {
-              this.name = result.data.name,
+            this.layout = result.data.layout
+                if (this.layout == 'split' || this.layout == 'transform' || this.layout == 'flip' || this.layout == 'modal_dfc' || this.layout == 'adventure'){
+                  this.name = result.data.card_faces[0].name
+                } else {
+                  this.name = result.data.name
+                }
+
               this.$router.push({path: `/card/${this.name}`})
           }
       )

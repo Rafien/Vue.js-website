@@ -10,7 +10,7 @@ import { routerKey } from "vue-router";
         name : "",
         name1: "",
         mana_cost : 0,
-        mana_cost: 0,
+        mana_cost1: 0,
         set : "",
         type : "",
         type1: "",
@@ -31,9 +31,6 @@ import { routerKey } from "vue-router";
     mounted(){
       this.setup()
     },
-    updated() {
-      this.setup()
-    },
     methods:{
       async setup(){
         this.getNom()
@@ -47,7 +44,8 @@ import { routerKey } from "vue-router";
             (result) => {
               this.layout = result.data.layout
               this.set = result.data.set
-              console.log(result)
+              this.getSet(this.set)
+              console.log(this.set)
               if (this.layout == 'split' || this.layout == 'flip' || this.layout == 'transform' || this.layout == 'modal_dfc' || this.layout == 'adventure'){
                 //name
                 this.name = result.data.card_faces[0].name
@@ -88,17 +86,24 @@ import { routerKey } from "vue-router";
               
             }
         )
-        },
-        async transform(){
-          if (this.which_card == 1){
-            this.affimg = this.img1
-            this.which_card = 2 
-          } else {
-            this.affimg = this.img
-            this.which_card = 1
-          }
-            
+      },
+      async getSet(set){
+        axios.get('https://api.scryfall.com/sets/'+ set).then(
+        (setResult) => {
+          this.set = setResult.data.name
         }
+      )
+      },
+      transform(){
+        if (this.which_card == 1){
+          this.affimg = this.img1
+          this.which_card = 2 
+        } else {
+          this.affimg = this.img
+          this.which_card = 1
+        }
+            
+      },
         //https://scryfall.com/docs/api/card-symbols/all
         //https://scryfall.com/docs/api/colors
       /*async analyseManaCost(mana_cost){

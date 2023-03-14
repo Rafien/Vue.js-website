@@ -45,7 +45,6 @@ import { routerKey } from "vue-router";
               this.layout = result.data.layout
               this.set = result.data.set
               this.getSet(this.set)
-              console.log(this.set)
               if (this.layout == 'split' || this.layout == 'flip' || this.layout == 'transform' || this.layout == 'modal_dfc' || this.layout == 'adventure'){
                 //name
                 this.name = result.data.card_faces[0].name
@@ -106,9 +105,9 @@ import { routerKey } from "vue-router";
       },
         //https://scryfall.com/docs/api/card-symbols/all
         //https://scryfall.com/docs/api/colors
-      /*async analyseManaCost(mana_cost){
-        regex = '\{[\w/]*}'
-      }*/
+      async analyseManaCost(mana_cost){
+        const regex = '\{[\w/]*}'
+      }
     }
   }
   </script>
@@ -124,7 +123,7 @@ import { routerKey } from "vue-router";
       <span class="card_infos">
         <div class="card_info">Nom : <span id="nom">{{ nom }}</span> </div>
         <div v-if=" this.mana_cost != 0" class="card_info">Mana Cost : {{ this.mana_cost }}</div>
-        <div class="card_info">set : {{ this.set }}</div>
+        <div class="card_info">Set : {{ this.set }}</div>
         <div class="card_info">Type : {{ this.type }}</div>
         <div v-if="this.text != ''" class="card_info">Text : {{ this.text }}</div>
         <div v-if=" this.power != undefined" class="card_info">Power : {{ this.power }}</div>

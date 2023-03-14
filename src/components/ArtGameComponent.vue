@@ -1,4 +1,5 @@
 <script>
+import { registerRuntimeHelpers } from "@vue/compiler-core";
 import axios from "axios";
 
 export default {
@@ -28,10 +29,10 @@ export default {
   },
   watch:{
     toGuess(newGuess){
+      this.guessedName = ""
         axios.get('https://api.scryfall.com/cards/named',{params: {fuzzy:newGuess}} ).then(
             (guessResult) => {
                 this.guessedName = guessResult.data.name
-                console.log(guessResult)
             }
         )
     }
@@ -73,7 +74,6 @@ export default {
     getSet(set){
       axios.get('https://api.scryfall.com/sets/'+ set).then(
         (setResult) => {
-          console.log(setResult)
           this.oldset = setResult.data.name
         }
       )
@@ -89,7 +89,7 @@ export default {
 
   <button @click="guess()"><slot>guess</slot></button>
   <div>Score : {{  this.score }}</div>
-  <div v-if="oldName != ''">{{ this.resultat }} it was <router-link :to="{name: 'card_page', params:{nom: this.oldName}}" target="_blank" class="link-to-art">{{ this.oldName }}</router-link> from {{ this.oldset }} and you guessed {{ this.guessedNameDisplay }}</div>
+  <div v-if="oldName != ''">{{ this.resultat }} it was <router-link :to="{name: 'card_page', params:{nom: this.oldName}}" target="_blank" class="link-to-art">{{ this.oldName }}</router-link> from {{ this.oldset }} and you guessed {{ this.guessedNameDisplay }}<span v-if="guessedNameDisplay == ''">nothing</span></div>
   <img :src="this.oldImg" class="old_img">
 </template>
 

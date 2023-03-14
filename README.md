@@ -1,1 +1,1 @@
-
+Le but de ce project etait de demontrer la comprehension d'un framework front-end, plus precisement la capacité d'utilisation des routers ainsi que d'api via axios

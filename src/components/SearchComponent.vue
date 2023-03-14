@@ -1,41 +1,41 @@
 
 
 <script>
-import { transform } from "@vue/compiler-core";
-import axios from "axios";
+  import { transform } from "@vue/compiler-core";
+  import axios from "axios";
 
-export default {
-  name: "SearchComponent",
-  data(){
-    return {
-      search: "",
-      name: "",
-      layout: "",
-    }
-  },
-  watch:{
-    search(newSearch){
-      axios.get('https://api.scryfall.com/cards/named',{params: {fuzzy:newSearch}} ).then(
-            (result) => {
-                this.layout = result.data.layout
-                if (this.layout == 'split' || this.layout == 'transform' || this.layout == 'flip' || this.layout == 'modal_dfc' || this.layout == 'adventure'){
-                  this.name = result.data.card_faces[0].name
-                } else {
-                  this.name = result.data.name
-                }
-            }
-        )
-    }
-  },
-  methods:{
-    changeTo(){
-      this.$router.push({path: `/card/${this.name}`})
+  export default {
+    name: "SearchComponent",
+    data(){
+      return {
+        search: "",
+        name: "",
+        layout: "",
+      }
+    },
+    watch:{
+      search(newSearch){
+        axios.get('https://api.scryfall.com/cards/named',{params: {fuzzy:newSearch}} ).then(
+              (result) => {
+                  this.layout = result.data.layout
+                  if (this.layout == 'split' || this.layout == 'transform' || this.layout == 'flip' || this.layout == 'modal_dfc' || this.layout == 'adventure'){
+                    this.name = result.data.card_faces[0].name
+                  } else {
+                    this.name = result.data.name
+                  }
+              }
+          )
+      }
+    },
+    methods:{
+      changeTo(){
+        this.$router.push({path: `/card/${this.name}`})
         
-      this.search = ""
-  }
-  }
+        this.search = ""
+    }
+    }
     
-}
+  }
 
 
 </script>

@@ -11,6 +11,8 @@ export default {
       name : "",
       img: "",
       set: "",
+      //testing pruposes
+      firstSet : "",
 
       // recup input + données
       input: "",
@@ -48,8 +50,11 @@ export default {
               this.name = result.data.name,
               this.img = result.data.image_uris.art_crop
               this.set = result.data.set
+              //testing purposes
+              this.firstSet = this.testingGetSet(this.set)
           }
       )
+
     },
     guess(){
         this.verifReponse()
@@ -77,15 +82,25 @@ export default {
           this.oldset = setResult.data.name
         }
       )
+    },
+    testingGetSet(set){
+      axios.get('https://api.scryfall.com/sets/'+ set).then(
+        (setResult) => {
+          this.firstSet = setResult.data.name
+        }
+      )
     }
   }
 }
 </script>
 
 <template>
-    <div><img :src="this.img" class="main_img"/></div>
-    <div>  For testing purposes : name : {{ this.name }}, set : {{ this.set }}</div>
-    <input type="text" v-model="toGuess">
+  <div><img :src="this.img" class="main_img"/></div>
+  <!--test-->
+  <div>  For testing purposes : name : {{ this.name }}, set : {{ this.firstSet }}</div>
+
+
+  <input type="text" v-model="toGuess">
 
   <button @click="guess()"><slot>guess</slot></button>
   <div>Score : {{  this.score }}</div>

@@ -56,6 +56,7 @@
     background-color: #402e75;
     border: none;
     border-left: solid 1px rgba(48, 52, 54, 0.4);
+    color: #fffffe;
   }
 
   ::placeholder{

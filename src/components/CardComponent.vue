@@ -7,8 +7,8 @@ import { routerKey } from "vue-router";
     name: "CardComponent",
     data(){
       return {
-        card: null,
-        card1: null,
+        // card: null,
+        // card1: null,
         name : "",
         name1: "",
         mana_cost : 0,
@@ -35,12 +35,12 @@ import { routerKey } from "vue-router";
     },
     methods:{
       async setup(){
-        this.getNom()
-        this.getCard(nom.firstChild.nodeValue)
+        // this.getNom()
+        this.getCard(this.nom)
       },
-      async getNom(){
-        var nom = document.getElementById('nom').firstChild.nodeValue
-      },
+      // async getNom(){
+      //   var nom = document.getElementById('nom').firstChild.nodeValue
+      // },
       async getCard(needed){
         axios.get('https://api.scryfall.com/cards/named', {params: {exact : needed}}).then(
             (result) => {
@@ -81,7 +81,7 @@ import { routerKey } from "vue-router";
               } else {
                 // this.card = result.data
 
-
+                this.name = result.data.name
                 this.text = result.data.oracle_text
                 this.mana_cost = result.data.mana_cost
                 this.type = result.data.type_line
@@ -137,13 +137,13 @@ import { routerKey } from "vue-router";
         </div>
       </span>
       <span class="card_infos">
-        <div class="card_info">Nom : <span id="nom">{{ nom }}</span> </div>
+        <div class="card_info">Nom : <span id="nom">{{ this.name }}</span> </div>
         <div v-if=" this.mana_cost != 0" class="card_info">Mana Cost : {{ this.mana_cost }}</div>
-        <div class="card_info">Set : {{ this.set }}</div>
         <div class="card_info">Type : {{ this.type }}</div>
         <div v-if="this.text != ''" class="card_info">Text : {{ this.text }}</div>
         <div v-if=" this.power != undefined" class="card_info">Power : {{ this.power }}</div>
         <div v-if=" this.toughness != undefined" class="card_info">Toughness : {{ this.toughness }}</div>
+        <div class="card_info">Set : {{ this.set }}</div>
         <!--layout-->
         <div v-if="this.layout == 'split' || this.layout == 'flip' || this.layout == 'transform' || this.layout == 'modal_dfc' || this.layout == 'adventure'" class="card_info card_2">
           <div class="card_info"> Nom alt : <span id="nom">{{ this.name1 }}</span></div>

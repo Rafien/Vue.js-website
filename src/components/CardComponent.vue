@@ -1,31 +1,40 @@
 
   <script>
-  import axios from "axios";
+  import { stringifyExpression } from "@vue/compiler-core";
+import axios from "axios";
 import { routerKey } from "vue-router";
   
   export default {
     name: "CardComponent",
     data(){
       return {
-        // card: null,
-        // card1: null,
+        //names
         name : "",
         name1: "",
+        //mana_costs
         mana_cost : 0,
         mana_cost1: 0,
+        //Set
         set : "",
+        //types
         type : "",
         type1: "",
+        //text
         text : "",
         text1 : "",
+        //power
         power : 0,
         power1 : 0,
+        //toughness
         toughness : 0,
         toughness1 : 0,
+        //imgs
         img: "",
         img1: "",
         affimg: "",
+        //layout
         layout: "",
+        //choix de l'image a afficher
         which_card : 1,
       }
     },
@@ -47,10 +56,9 @@ import { routerKey } from "vue-router";
               this.layout = result.data.layout
               this.set = result.data.set
               this.getSet(this.set)
+              // verifie layout de la carte pour bonne recup d'infos
               if (this.layout == 'split' || this.layout == 'flip' || this.layout == 'transform' || this.layout == 'modal_dfc' || this.layout == 'adventure'){
-                //card
-                // this.card = result.data.card_faces[0]
-                // this.card1 = result.data.card_faces[1]
+                //recup infos
                 //name
                 this.name = result.data.card_faces[0].name
                 this.name1 = result.data.card_faces[1].name
@@ -70,16 +78,18 @@ import { routerKey } from "vue-router";
                 this.toughness = result.data.card_faces[0].toughness
                 this.toughness1 = result.data.card_faces[1].toughness
                 //img
+                // pour cartes a double cartes sur une face
                 if(this.layout == 'split' || this.layout == 'flip' || this.layout == 'adventure'){
                   this.img = result.data.image_uris.png
                   this.affimg = this.img
                 } else {
+                  // pour les cartes a double face
                   this.img = result.data.card_faces[0].image_uris.png
                   this.img1 = result.data.card_faces[1].image_uris.png
                   this.affimg = this.img
                 }
               } else {
-                // this.card = result.data
+                // pour les cartes ne necessitant pas de gestion differente
 
                 this.name = result.data.name
                 this.text = result.data.oracle_text
@@ -94,6 +104,7 @@ import { routerKey } from "vue-router";
             }
         )
       },
+      // recuperation du set en nom complet
       async getSet(set){
         axios.get('https://api.scryfall.com/sets/'+ set).then(
         (setResult) => {
@@ -101,6 +112,7 @@ import { routerKey } from "vue-router";
         }
       )
       },
+      // fonction pour changer image de cartes a double face
       transform(){
         if (this.which_card == 1){
           this.affimg = this.img1
@@ -115,7 +127,10 @@ import { routerKey } from "vue-router";
         //https://scryfall.com/docs/api/colors
       // async analyseManaCost(mana_cost){
       //   const regex = '\{[\w/]*}'
-      //   /*
+      //   for ( let i = 0; i< mana_cost.lenght; i++){
+      //     mana_cost.replace()
+      //   }
+        /*
       //   lire string
       //   reperer regex   
       //   https://stackoverflow.com/questions/52424306/add-html-element-in-div-vuejs
@@ -128,14 +143,18 @@ import { routerKey } from "vue-router";
   }
   </script>
   <template>
+
     <div class="card_grid">
       <span class="img">
+        //image de la carte
         <img :src="this.affimg"/>
+        <!-- si layout a 2 faces : ajouter un bouton pour la retourner -->
         <div v-if="this.layout == 'transform' || this.layout == 'modal_dfc'" class="transform">
           <button @click="$event => transform()"> Transform</button>
       
         </div>
       </span>
+      <!-- affichage infos carte normale -->
       <span class="card_infos">
         <div class="card_info">Nom : <span id="nom">{{ this.name }}</span> </div>
         <div v-if=" this.mana_cost != 0" class="card_info">Mana Cost : {{ this.mana_cost }}</div>
@@ -144,14 +163,21 @@ import { routerKey } from "vue-router";
         <div v-if=" this.power != undefined" class="card_info">Power : {{ this.power }}</div>
         <div v-if=" this.toughness != undefined" class="card_info">Toughness : {{ this.toughness }}</div>
         <div class="card_info">Set : {{ this.set }}</div>
-        <!--layout-->
+        <!-- affichage pour les cartes necessitant une gestion differente-->
         <div v-if="this.layout == 'split' || this.layout == 'flip' || this.layout == 'transform' || this.layout == 'modal_dfc' || this.layout == 'adventure'" class="card_info card_2">
+          <!-- nom -->
           <div class="card_info"> Nom alt : <span id="nom">{{ this.name1 }}</span></div>
+          <!-- mana cost -->
           <div v-if=" this.mana_cost1 != 0" class="card_info">Mana Cost alt : {{ this.mana_cost1 }}</div>
+          <!-- set -->
           <div class="card_info">set : {{ this.set }}</div>
+          <!-- type -->
           <div class="card_info">Type : {{ this.type1 }}</div>
+          <!-- oracle_text -->
           <div v-if="this.text1 != ''" class="card_info">Text alt : {{ this.text1 }}</div>
+          <!-- power -->
           <div v-if=" this.power1 != undefined" class="card_info">Power : {{ this.power1 }}</div>
+          <!-- toughness -->
           <div v-if=" this.toughness1 != undefined" class="card_info">Toughness : {{ this.toughness1 }}</div>
         
         </div>

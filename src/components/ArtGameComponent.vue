@@ -30,6 +30,7 @@ export default {
     }
   },
   watch:{
+    // recuperation du nom exact de la carte devinée
     toGuess(newGuess){
       this.guessedName = ""
         axios.get('https://api.scryfall.com/cards/named',{params: {fuzzy:newGuess}} ).then(
@@ -43,6 +44,7 @@ export default {
     this.getProduct();
   },
   methods:{
+    // recuperation des informations de la carte a deviner
     async getProduct(){
       
       axios.get('https://api.scryfall.com/cards/random').then(
@@ -56,11 +58,13 @@ export default {
       )
 
     },
+    // essai de deviner
     guess(){
         this.verifReponse()
         this.setVariables()
         this.getProduct()
     },
+    // je verifie la correspondance entre le nom deviné et le nom a deviner
     verifReponse(){
         if (this.name == this.guessedName){
             this.resultat = "Correct"
@@ -69,6 +73,7 @@ export default {
             this.resultat = "Incorrect"
         }
     },
+    // je recupere mes variables afin d'afficher la verification au joueur
     setVariables(){
         this.oldImg = this.img
         this.oldName = this.name
@@ -76,6 +81,7 @@ export default {
         this.guessedNameDisplay = this.guessedName
         this.toGuess = ""
     },
+    // je recupere le set pour l'indiquer au joueur (les artworks ne sont pas toujours les memes)
     getSet(set){
       axios.get('https://api.scryfall.com/sets/'+ set).then(
         (setResult) => {
@@ -83,6 +89,7 @@ export default {
         }
       )
     },
+    //apperement c'est necessaire
     testingGetSet(set){
       axios.get('https://api.scryfall.com/sets/'+ set).then(
         (setResult) => {
@@ -95,15 +102,18 @@ export default {
 </script>
 
 <template>
+  <!-- j'affiche mon image a deviner -->
   <div><img :src="this.img" class="main_img"/></div>
   <!--test-->
   <div>  For testing purposes : name : {{ this.name }}, set : {{ this.firstSet }}</div>
 
-
+<!-- input pour guess -->
   <input type="text" v-model="toGuess">
 
   <button @click="guess()"><slot>guess</slot></button>
+  <!-- affichage du score -->
   <div>Score : {{  this.score }}</div>
+  <!-- affichage ancienne carte -->
   <div v-if="oldName != ''">{{ this.resultat }} it was <router-link :to="{name: 'card_page', params:{nom: this.oldName}}" target="_blank" class="link-to-art">{{ this.oldName }}</router-link> from {{ this.oldset }} and you guessed {{ this.guessedNameDisplay }}<span v-if="guessedNameDisplay == ''">nothing</span></div>
   <img :src="this.oldImg" class="old_img">
 </template>

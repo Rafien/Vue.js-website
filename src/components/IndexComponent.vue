@@ -1,5 +1,6 @@
 <template>
   <ul>
+    <!-- router link de test + demo si besoin -->
     <li><router-link :to="{name: 'card_page', params:{nom: 'Queen Kayla bin-Kroog'}}">Queen Kayla (creature)</router-link></li>
     <li><router-link :to="{name: 'card_page', params:{nom: 'Omniscience'}}">Omniscience (non-creature)</router-link></li>
     <li><router-link :to="{name: 'card_page', params:{nom: 'Assure'}}">Assure // Assemble (split-cards)</router-link></li>

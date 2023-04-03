@@ -43,7 +43,7 @@
                 <div class="card_info">Nom : <span id="nom">{{ card.data.name }}</span> </div>
                 <div v-if=" card.data.mana_cost != 0" class="card_info">Mana Cost : {{ card.data.mana_cost }}</div>
                 <div class="card_info">Type : {{ card.data.type_line }}</div>
-                <div v-if="this.text != ''" class="card_info">Text : {{ card.data.oracle_text }}</div>
+                <div v-if="card.data.oracle_text != ''" class="card_info">Text : {{ card.data.oracle_text }}</div>
                 <div v-if=" card.data.power != undefined" class="card_info">Power : {{ card.data.power }}</div>
                 <div v-if=" card.data.power != undefined" class="card_info">Toughness : {{ card.data.toughness }}</div>
             </span>

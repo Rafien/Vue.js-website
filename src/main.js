@@ -10,13 +10,15 @@ import './assets/main.css'
 import IndexComponent from "@/components/IndexComponent.vue";
 import CardComponent from "@/components/CardComponent.vue";
 import RandomComponent from "@/components/RandomComponent.vue";
-import ArtGameComponent from "@/components/ArtGameComponent.vue"
+import ArtGameComponent from "@/components/ArtGameComponent.vue";
+import SearchedComponent from "@/components/SearchedComponent.vue"
 
 const routes = [
     {path: '/', name:'homepage', component: IndexComponent},
     {path: '/random', name:'randomCard', component: RandomComponent},
     {path: '/card/:nom', name:'card_page', component: CardComponent, props: true},
-    {path: '/art-game', name: 'art-game', component: ArtGameComponent}
+    {path: '/art-game', name: 'art-game', component: ArtGameComponent},
+    {path: '/searched/:search', name: 'searched', component: SearchedComponent, props: true}
 ];
 
 const router = createRouter({

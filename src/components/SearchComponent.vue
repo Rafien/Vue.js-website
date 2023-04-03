@@ -25,15 +25,19 @@
                   }
               }
           )
-      }
+      },
     },
     methods:{
       changeTo(){
-        this.$router.push({path: `/card/${this.name}`})
-        
+        if (this.name !== ""){
+          this.$router.push({path: `/card/${this.name}`})
+        } else {
+          this.$router.push({path: `/searched/${this.search}`, params:{search:this.search}})
+        }
+        this.name = ""
         this.search = ""
     }
-    }
+  }
     
   }
 

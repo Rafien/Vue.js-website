@@ -6,7 +6,6 @@ export default {
 
 <template>
   <footer>
-    Ceci est mon footer
   </footer>
 </template>
 

@@ -21,3 +21,5 @@ Ouvrir le navigateur sur localhost:5173
 
 
 Etant plus fan du front que du back, j'ai fortement apprécié ce cours. Comme d'habitude le suivi est super mais il est complexe de suivre autant d'étudiants en si peu de temps.
+
+node version : 18.17
